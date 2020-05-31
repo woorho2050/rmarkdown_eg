@@ -2,7 +2,7 @@
 title: "rmarkdown example"
 author: "woorho2050"
 date: "`r format(Sys.Date(), '%Y.%m.%d.')`"
-output: html_document
+output: github_document
 ---
 
 ```{r setup, include=FALSE}
