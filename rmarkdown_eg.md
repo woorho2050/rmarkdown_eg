@@ -3,33 +3,34 @@ rmarkdown example
 woorho2050
 2020.05.31.
 
-## R Markdown
-
-This is an R Markdown document. Markdown is a simple formatting syntax
-for authoring HTML, PDF, and MS Word documents. For more details on
-using R Markdown see <http://rmarkdown.rstudio.com>.
-
-When you click the **Knit** button a document will be generated that
-includes both content as well as the output of any embedded R code
-chunks within the document. You can embed an R code chunk like this:
+# artful plotting
 
 ``` r
-summary(cars)
+library(flametree)
+library(voronoise)
 ```
 
-    ##      speed           dist       
-    ##  Min.   : 4.0   Min.   :  2.00  
-    ##  1st Qu.:12.0   1st Qu.: 26.00  
-    ##  Median :15.0   Median : 36.00  
-    ##  Mean   :15.4   Mean   : 42.98  
-    ##  3rd Qu.:19.0   3rd Qu.: 56.00  
-    ##  Max.   :25.0   Max.   :120.00
+    ## Loading required package: ggplot2
 
-## Including Plots
+    ## Loading required package: ggforce
 
-You can also embed plots, for example:
+``` r
+library(deldir)
+```
 
-![](rmarkdown_eg_files/figure-gfm/pressure-1.png)<!-- -->
+    ## deldir 0.1-25
 
-Note that the `echo = FALSE` parameter was added to the code chunk to
-prevent printing of the R code that generated the plot.
+``` r
+ft <- flametree_grow(333, 4, 0.5 + (1:5) / 9, c(-20, 15, 30), 4)
+
+ggplot(ft[ft$id_leaf, ], aes(coord_x, coord_y)) +
+    geom_bezier(aes(group = id_path), ft) +
+    geom_point(size = 3) +
+    geom_voronoise(aes(fill = seg_col), max.radius = 0.2) +
+    theme_void() +
+    coord_equal()
+```
+
+    ## Warning: stat_voronoi_tile: dropping duplicated points
+
+![](rmarkdown_eg_files/figure-gfm/unnamed-chunk-1-1.png)<!-- -->

@@ -9,22 +9,18 @@ output: github_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-## R Markdown
+# artful plotting
+```{r}
+library(flametree)
+library(voronoise)
+library(deldir)
 
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+ft <- flametree_grow(333, 4, 0.5 + (1:5) / 9, c(-20, 15, 30), 4)
 
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
-
-```{r cars}
-summary(cars)
+ggplot(ft[ft$id_leaf, ], aes(coord_x, coord_y)) +
+    geom_bezier(aes(group = id_path), ft) +
+    geom_point(size = 3) +
+    geom_voronoise(aes(fill = seg_col), max.radius = 0.2) +
+    theme_void() +
+    coord_equal()
 ```
-
-## Including Plots
-
-You can also embed plots, for example:
-
-```{r pressure, echo=FALSE}
-plot(pressure)
-```
-
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
